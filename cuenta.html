@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cuenta</title>
+  <link rel="stylesheet" href="css/estilos.css" />
+</head>
+
+<body class="home-page">
+  <header class="navbar">
+    <div class="logo-nav">
+      <a href="inmuebles.html">
+        <img src="assets/wangLogoBanner.png" alt="Logo WANG" />
+      </a>
+    </div>
+    <nav class="menu" id="cuenta">
+      <a href="cuenta.html" style="color: #f2c94c;">Cuenta</a>
+      <a href="citas.html">Citas</a>
+      <a href="buscar.html"><img src="assets/searchIcon.png" alt="Buscar" /></a>
+      <a href="publicar.html">Publicar</a>
+      <a href="contratos.html">Contratos</a>
+      <a href="index.html"><img src="assets/logoutIcon.png" alt="Salir" /></a>
+    </nav>
+  </header>
+
+  <main style="padding: 40px 20px;">
+    <div style="text-align: center; margin-bottom: 40px;">
+      <button class="boton-registrar" onclick="window.location.href='modificar-cuenta.html'">
+        Modificar cuenta
+      </button>
+    </div>
+
+    <section id="contenedor-inmuebles" class="listado-inmuebles">
+      <!-- Se insertarán tarjetas aquí por JS -->
+    </section>
+  </main>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const usuario = JSON.parse(localStorage.getItem("usuario"));
+      const nav = document.getElementById("cuenta");
+
+      if (!usuario || usuario.Role === "TENANT") {
+        nav.innerHTML = `
+        <a href="cuenta.html" style="color: #f2c94c">Cuenta</a>
+        <a href="buscar.html"><img src="assets/searchIcon.png" alt="Buscar" /></a>
+        <a href="contratos.html">Contratos</a>
+        <a href="index.html"><img src="assets/logoutIcon.png" alt="Salir" /></a>
+      `;
+      } else {
+        nav.innerHTML = `
+        <a href="cuenta.html" style="color: #f2c94c">Cuenta</a>
+        <a href="citas.html">Citas</a>
+        <a href="buscar.html"><img src="assets/searchIcon.png" alt="Buscar" /></a>
+        <a href="publicar.html">Publicar</a>
+        <a href="contratos.html">Contratos</a>
+        <a href="index.html"><img src="assets/logoutIcon.png" alt="Salir" /></a>
+      `;
+      }
+    });
+  </script>
+  <script type="module" src="js/perfil.js"></script>
+</body>
+
+</html>

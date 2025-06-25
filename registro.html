@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dar de alta usuario</title>
+  <link rel="stylesheet" href="css/estilos.css" />
+</head>
+<body class="registro-page">
+  <div class="left-panel"></div>
+
+  <div class="right-panel">
+    <form id="form-registro" class="formulario-alta-usuario">
+      <label for="nombre">Nombre completo:</label>
+      <input type="text" id="nombre" placeholder="e.j. Ares Judda Rivera Soto" required />
+
+      <label for="telefono">Teléfono:</label>
+      <input type="tel" id="telefono" placeholder="e.j. 2288645635" required />
+
+      <label for="direccion">Dirección:</label>
+      <input type="text" id="direccion" placeholder="e.j. Calle SiempreViva 58, Colonia Juanes, 91236, Xalapa, Veracruz." required />
+
+      <label for="rol">Rol:</label>
+      <select id="rol" required>
+        <option value="">-- Selecciona un rol para la cuenta --</option>
+        <option value="LANDLORD">Arrendador</option>
+        <option value="TENANT">Arrendatario</option>
+      </select>
+
+      <label for="email">Email:</label>
+      <input type="email" id="email" placeholder="e.j. aresJudda@gmail.com" required />
+
+      <label for="password">Contraseña:</label>
+      <input type="password" id="password" placeholder="e.j. Casa#2024" required />
+
+      <button type="submit" class="boton-registrar">Guardar</button>
+      <button type="button" onclick="window.location.href='index.html'" class="boton-cancelar">Cancelar</button>
+    </form>
+  </div>
+
+  <script type="module" src="js/perfil.js"></script>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Inmuebles</title>
+  <link rel="stylesheet" href="css/estilos.css">
+</head>
+
+<body class="home-page">
+  <header class="navbar">
+    <div class="logo-nav">
+      <a href="inmuebles.html">
+        <img src="assets/wangLogoBanner.png" alt="Logo WANG" />
+      </a>
+    </div>
+    <nav class="menu" id="menu-principal">
+      <!-- El contenido será insertado desde JS -->
+    </nav>
+  </header>
+
+  <main style="padding: 40px 20px;">
+    <section class="alianzas">
+      <h2>
+        Gracias a nuestras alianzas con más de 50 instituciones financieras,<br />
+        te ayudamos a encontrar el crédito hipotecario que mejor se adapta a tus necesidades.
+      </h2>
+      <div class="carousel-container">
+        <div class="carousel-track">
+          <img src="assets/bankLogosBanner.png" alt="Logos financieros">
+          <img src="assets/bankLogosBanner.png" alt="Logos financieros duplicado">
+        </div>
+      </div>
+    </section>
+
+    <section class="listado-inmuebles fila-horizontal">
+      <div id="contenedor-inmuebles" class="contenedor-inmuebles"></div>
+    </section>
+  </main>
+
+  <script type="module">
+    import { obtenerInmuebles, renderInmuebles } from './js/inmuebles.js';
+    document.addEventListener("DOMContentLoaded", async () => {
+      const contenedor = document.getElementById("contenedor-inmuebles");
+      const inmuebles = await obtenerInmuebles();
+      console.log('Inmuebles obtenidos:', JSON.stringify(inmuebles, null, 2));
+      const listaMapeada = inmuebles.map(inmueble => {
+        const propertyId = inmueble.PropertyID || inmueble.propertyId;
+        console.log('Mapeando inmueble con PropertyID:', propertyId);
+        return {
+          ...inmueble,
+          enlace: `detalles?propertyId=${encodeURIComponent(propertyId)}`
+        };
+      });
+      renderInmuebles(listaMapeada, contenedor);
+    });
+  </script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const usuario = JSON.parse(localStorage.getItem("usuario"));
+      const nav = document.getElementById("menu-principal");
+
+      if (!usuario || usuario.Role === "TENANT") {
+        nav.innerHTML = `
+        <a href="cuenta.html">Cuenta</a>
+        <a href="buscar.html"><img src="assets/searchIcon.png" alt="Buscar" /></a>
+        <a href="contratos.html">Contratos</a>
+        <a href="index.html"><img src="assets/logoutIcon.png" alt="Salir" /></a>
+      `;
+      } else {
+        nav.innerHTML = `
+        <a href="cuenta.html">Cuenta</a>
+        <a href="citas.html">Citas</a>
+        <a href="buscar.html"><img src="assets/searchIcon.png" alt="Buscar" /></a>
+        <a href="publicar.html">Publicar</a>
+        <a href="contratos.html">Contratos</a>
+        <a href="index.html"><img src="assets/logoutIcon.png" alt="Salir" /></a>
+      `;
+      }
+    });
+  </script>
+</body>
+
+</html>

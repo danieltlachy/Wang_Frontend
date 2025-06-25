@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Modificar cuenta</title>
+  <link rel="stylesheet" href="css/estilos.css" />
+</head>
+
+<body class="home-page">
+
+  <header class="navbar">
+    <div class="logo-nav">
+      <a href="inmuebles.html">
+        <img src="assets/wangLogoBanner.png" alt="Logo WANG" />
+      </a>
+    </div>
+    <nav class="menu">
+      <a href="cuenta.html" style="color: #f2c94c;">Cuenta</a>
+      <a href="citas.html">Citas</a>
+      <a href="buscar.html"><img src="assets/searchIcon.png" alt="Buscar" /></a>
+      <a href="publicar.html">Publicar</a>
+      <a href="contratos.html">Contratos</a>
+      <a href="index.html"><img src="assets/logoutIcon.png" alt="Salir" /></a>
+    </nav>
+  </header>
+
+  <main style="padding: 40px 20px;">
+    <form id="form-modificar" class="formulario-alta-usuario" enctype="multipart/form-data">
+      <label for="nombre">Nombre completo:</label>
+      <input type="text" id="nombre" name="fullName" required />
+
+      <label for="telefono">Teléfono:</label>
+      <input type="tel" id="telefono" name="phone" required />
+
+      <label for="direccion">Dirección:</label>
+      <input type="text" id="direccion" name="address" required />
+
+      <label for="rol">Rol:</label>
+      <select id="rol" readonly style="pointer-events: none; background-color: #eee;">
+        <option value="arrendador">Arrendador</option>
+        <option value="arrendatario">Arrendatario</option>
+      </select>
+
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" readonly />
+
+      <label for="password">Contraseña:</label>
+      <input type="password" id="password" readonly />
+
+      <label for="imagen">Imagen de perfil:</label>
+      <input type="file" id="imagen" name="imagen" accept="image/*" />
+      <div id="preview-imagen" class="preview-container"></div>
+
+      <button type="submit" class="boton-registrar">Guardar</button>
+      <button type="button" onclick="window.location.href='cuenta.html'" class="boton-cancelar">Cancelar</button>
+    </form>
+  </main>
+    <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const usuario = JSON.parse(localStorage.getItem("usuario"));
+      const nav = document.getElementById("cuenta");
+
+      if (!usuario || usuario.Role === "TENANT") {
+        nav.innerHTML = `
+        <a href="cuenta.html" style="color: #f2c94c">Cuenta</a>
+        <a href="buscar.html"><img src="assets/searchingIcon.png" alt="Buscar" /></a>
+        <a href="contratos.html">Contratos</a>
+        <a href="index.html"><img src="assets/logoutIcon.png" alt="Salir" /></a>
+      `;
+      } else {
+        nav.innerHTML = `
+        <a href="cuenta.html" style="color: #f2c94c">Cuenta</a>
+        <a href="citas.html">Citas</a>
+        <a href="buscar.html"><img src="assets/searchingIcon.png" alt="Buscar" /></a>
+        <a href="publicar.html">Publicar</a>
+        <a href="contratos.html">Contratos</a>
+        <a href="index.html"><img src="assets/logoutIcon.png" alt="Salir" /></a>
+      `;
+      }
+    });
+  </script>
+  <script type="module" src="js/perfil.js"></script>
+</body>
+
+</html>

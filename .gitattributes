@@ -1,0 +1,27 @@
+# Manejo de finales de línea
+* text=auto
+
+# Archivos específicos
+*.html text
+*.css text
+*.js text
+*.json text
+*.ts text
+*.cs text
+*.cshtml text
+*.xaml text
+*.config text
+*.md text
+*.yml text
+*.xml text
+
+# Tratar archivos binarios como binarios
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.ico binary
+*.ttf binary
+*.woff binary
+*.woff2 binary

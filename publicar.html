@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dar de alta Inmueble</title>
+  <link rel="stylesheet" href="css/estilos.css" />
+</head>
+
+<body class="home-page">
+  <header class="navbar">
+    <div class="logo-nav">
+      <a href="inmuebles.html">
+        <img src="assets/wangLogoBanner.png" alt="Logo WANG" />
+      </a>
+    </div>
+    <nav class="menu">
+      <a href="cuenta.html">Cuenta</a>
+      <a href="citas.html">Citas</a>
+      <a href="buscar.html"><img src="assets/searchIcon.png" alt="Buscar" /></a>
+      <a href="publicar.html" style="color: #f2c94c;">Publicar</a>
+      <a href="contratos.html">Contratos</a>
+      <a href="index.html"><img src="assets/logoutIcon.png" alt="Salir" /></a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="formulario-alta-usuario" style="padding: 40px 20px;">
+      <form id="form-publicar">
+        <label for="titulo">Título:</label>
+        <input type="text" id="titulo" required />
+
+        <label for="tipo">Tipo de Inmueble:</label>
+        <select id="tipo" required>
+          <option value="">-- Selecciona un tipo de inmueble --</option>
+          <option value="Casa">Casa</option>
+          <option value="Departamento">Departamento</option>
+        </select>
+
+        <label for="direccion">Dirección:</label>
+        <input type="text" id="direccion" required />
+
+        <label for="latitud">Latitud:</label>
+        <input type="text" id="latitud" required />
+
+        <label for="longitud">Longitud:</label>
+        <input type="text" id="longitud" required />
+
+        <label for="precio">Precio:</label>
+        <input type="number" id="precio" required />
+
+        <label for="descripcion">Descripción:</label>
+        <textarea id="descripcion" rows="6" required></textarea>
+
+        <label for="fotos">Fotografías:</label>
+        <div class="upload-box" onclick="document.getElementById('input-fotos').click();">
+          <img src="assets/uploadIcon.png" alt="Subir imagen" />
+          <p>Haz clic para subir imágenes (máx. 10)</p>
+          <input type="file" id="input-fotos" title="input-fotos" name="input-fotos" accept="image/*" multiple>
+        </div>
+
+        <div id="preview" class="preview-container"></div>
+
+        <button type="submit" class="boton-registrar">Guardar</button>
+        <button type="button" class="boton-cancelar" onclick="window.location.href='inmuebles.html'">Cancelar</button>
+      </form>
+
+      <!-- Mueve la alerta fuera del form para que no se reinicie -->
+      <div id="alerta" class="alerta" style="display:none;"></div>
+    </section>
+  </main>
+
+  <script type="module">
+    import {
+      registrarInmuebleConImagenes,
+      actualizarInmueble,
+      obtenerDetallesBasicosInmueble,
+      renderPreview
+    } from './js/inmuebles.js';
+    import { mostrarAlerta } from './js/utils.js';
+
+    const backendBase = "http://localhost:8085";
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      const inmuebleId = localStorage.getItem("inmuebleEditar");
+      const form = document.getElementById('form-publicar');
+      const inputFotos = document.getElementById("input-fotos");
+      const preview = document.getElementById("preview");
+
+      // Cargar imagenes seleccionadas nuevas
+      inputFotos?.addEventListener("change", () => {
+        preview.innerHTML = "";
+        const files = inputFotos.files;
+        if (files && files.length > 0) {
+          [...files].forEach((file) => {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+              const img = document.createElement("img");
+              img.src = e.target.result;
+              img.alt = "Vista previa";
+              img.style.maxWidth = "150px";
+              img.style.margin = "10px";
+              preview.appendChild(img);
+            };
+            reader.readAsDataURL(file);
+          });
+        }
+      });
+
+      console.log('inmuebleId:', inmuebleId);
+      if (form && !form.dataset.listenerAttached && !inmuebleId) {
+        form.dataset.listenerAttached = "true";
+        form.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          await registrarInmuebleConImagenes(form);
+        });
+      }
+
+      // Si estamos editando
+      if (inmuebleId) {
+        try {
+          const inmueble = await obtenerDetallesBasicosInmueble(inmuebleId);
+
+          document.getElementById("titulo").value = inmueble.title || "";
+          document.getElementById("tipo").value = inmueble.categoryId === 1 ? "Casa" : "Departamento";
+          document.getElementById("direccion").value = inmueble.address || "";
+          document.getElementById("latitud").value = inmueble.latitude || "";
+          document.getElementById("longitud").value = inmueble.longitude || "";
+          document.getElementById("precio").value = inmueble.price || "";
+          document.getElementById("descripcion").value = inmueble.description || "";
+
+          renderPreview(inmueble.images || []);
+
+          if (form && !form.dataset.listenerAttached) {
+            form.dataset.listenerAttached = "true";
+            form.addEventListener("submit", async (e) => {
+              e.preventDefault();
+              const data = {
+                currentTitle: inmueble.title,
+                title: document.getElementById("titulo").value.trim(),
+                categoryId: document.getElementById("tipo").value === "Casa" ? 1 : 2,
+                address: document.getElementById("direccion").value.trim(),
+                latitude: document.getElementById("latitud").value.trim(),
+                longitude: document.getElementById("longitud").value.trim(),
+                price: document.getElementById("precio").value.trim(),
+                description: document.getElementById("descripcion").value.trim()
+              };
+              const inputFotos = document.getElementById("input-fotos");
+              const formData = new FormData();
+              formData.append("currentTitle", data.currentTitle);
+              if (data.title !== data.currentTitle) formData.append("title", data.title);
+              formData.append("categoryId", data.categoryId);
+              formData.append("address", data.address);
+              formData.append("latitude", data.latitude);
+              formData.append("longitude", data.longitude);
+              formData.append("price", data.price);
+              formData.append("description", data.description);
+              if (inputFotos.files) {
+                for (let i = 0; i < inputFotos.files.length && i < 10; i++) {
+                  formData.append("images", inputFotos.files[i]);
+                }
+              }
+
+              const res = await actualizarInmueble(inmuebleId, formData); 
+              if (res) {
+                mostrarAlerta("Inmueble actualizado correctamente", "success");
+                localStorage.removeItem("inmuebleEditar");
+                setTimeout(() => window.location.href = "cuenta.html", 1500);
+              }
+            });
+          }
+        } catch (err) {
+          console.error(err);
+          mostrarAlerta("No se pudo cargar el inmueble a editar", "error");
+        }
+      }
+    });
+  </script>
+</body>
+
+</html>

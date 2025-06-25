@@ -1,0 +1,47 @@
+# Archivos de sistema
+.DS_Store
+Thumbs.db
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build
+dist/
+build/
+out/
+
+# SASS cache
+.sass-cache/
+
+# Logs
+logs
+*.log
+
+# Compilados o temporales
+*.tmp
+*.swp
+
+# Entornos locales
+.env
+.env.local
+.env.*.local
+
+# IDE
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.user
+*.db
+*.bak
+
+# Git hooks
+.husky/_/

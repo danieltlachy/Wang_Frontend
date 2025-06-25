@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pago de Inmueble</title>
+  <link rel="stylesheet" href="css/estilos.css" />
+</head>
+
+<body class="home-page">
+  <header class="navbar">
+    <div class="logo-nav">
+      <a href="inmuebles.html">
+        <img src="assets/wangLogoBanner.png" alt="Logo WANG" />
+      </a>
+    </div>
+    <nav class="menu">
+      <a href="cuenta.html" style="color: #f2c94c;">Cuenta</a>
+      <a href="citas.html">Citas</a>
+      <a href="buscar.html"><img src="assets/searchIcon.png" alt="Buscar" /></a>
+      <a href="publicar.html">Publicar</a>
+      <a href="contratos.html">Contratos</a>
+      <a href="index.html"><img src="assets/logoutIcon.png" alt="Salir" /></a>
+    </nav>
+  </header>
+
+  <main style="padding: 40px 20px;">
+    <form class="formulario-alta-usuario">
+      <label for="titulo">Título del inmueble:</label>
+      <input type="text" id="titulo" disabled />
+
+      <label for="propietario">Nombre del Titular del Inmueble:</label>
+      <input type="text" id="propietario" disabled />
+
+      <label>Método de pago:</label>
+      <div class="metodos-pago">
+        <div class="metodo-pago-opcion">
+          <span class="check-icon">✔</span>
+          <input type="radio" name="metodo" id="paypal" value="paypal" />
+          <label for="paypal"><img src="assets/paypalIcon.png" alt="PayPal" /> PayPal</label>
+        </div>
+
+        <div class="metodo-pago-opcion">
+          <span class="check-icon">✔</span>
+          <input type="radio" name="metodo" id="google" value="google" />
+          <label for="google"><img src="assets/googlepayIcon.png" alt="Google Pay" /> Google Pay</label>
+        </div>
+
+        <div class="metodo-pago-opcion">
+          <span class="check-icon">✔</span>
+          <input type="radio" name="metodo" id="apple" value="apple" />
+          <label for="apple"><img src="assets/applepayIcon.png" alt="Apple Pay" /> Apple Pay</label>
+        </div>
+
+        <div class="metodo-pago-opcion">
+          <span class="check-icon">✔</span>
+          <input type="radio" name="metodo" id="tarjeta" value="tarjeta" />
+          <label for="tarjeta"><strong>Añadir una tarjeta nueva</strong></label>
+        </div>
+      </div>
+
+      <div id="form-tarjeta">
+        <label for="numTarjeta">Número de tarjeta:</label>
+        <input type="text" id="numTarjeta" placeholder="e.j. 154869531557236" />
+
+        <label for="nombreTarjeta">Nombre del titular:</label>
+        <input type="text" id="nombreTarjeta" placeholder="e.j. Luis Angel Elizalde Arroyo" />
+
+        <div class="tarjeta-info-extra">
+          <div>
+            <label>MM:</label>
+            <input type="text" placeholder="e.j. 08" />
+          </div>
+          <div>
+            <label>YY:</label>
+            <input type="text" placeholder="e.j. 2025" />
+          </div>
+          <div>
+            <label>CVV:</label>
+            <input type="text" placeholder="e.j. 156" />
+          </div>
+        </div>
+
+        <button type="button" class="boton-guardar-tarjeta">
+          Guardar tarjeta
+        </button>
+      </div>
+
+      <label for="monto">Monto a pagar:</label>
+      <input type="text" id="monto" disabled />
+
+      <button type="submit" class="boton-registrar">Guardar</button>
+      <button type="button" class="boton-cancelar" onclick="window.location.href='cuenta.html'">Cancelar</button>
+    </form>
+  </main>
+
+  <script type="module" src="js/inmuebles.js"></script>
+</body>
+
+</html>

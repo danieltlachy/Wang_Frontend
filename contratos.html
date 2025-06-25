@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contratos</title>
+  <link rel="stylesheet" href="css/estilos.css" />
+</head>
+
+<body class="home-page">
+  <header class="navbar">
+    <div class="logo-nav">
+      <a href="inmuebles.html">
+        <img src="assets/wangLogoBanner.png" alt="Logo WANG" />
+      </a>
+    </div>
+    <nav class="menu" id="cuenta">
+      <a href="cuenta.html">Cuenta</a>
+      <a href="citas.html">Citas</a>
+      <a href="buscar.html">
+        <img src="assets/searchIcon.png" alt="Buscar" />
+      </a>
+      <a href="publicar.html">Publicar</a>
+      <a href="contratos.html" style="color: #f2c94c;">Contratos</a>
+      <a href="index.html">
+        <img src="assets/logoutIcon.png" alt="Salir" />
+      </a>
+    </nav>
+  </header>
+
+  <main style="padding: 40px 20px;">
+    <section id="contenedor-contratos" style="display: flex; gap: 20px; flex-wrap: wrap; justify-content: center;">
+      <!-- Los contratos se cargarán dinámicamente aquí -->
+    </section>
+  </main>
+    <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const usuario = JSON.parse(localStorage.getItem("usuario"));
+      const nav = document.getElementById("cuenta");
+
+      if (!usuario || usuario.Role === "TENANT") {
+        nav.innerHTML = `
+        <a href="cuenta.html">Cuenta</a>
+        <a href="buscar.html"><img src="assets/searchIcon.png" alt="Buscar" /></a>
+        <a href="contratos.html" style="color: #f2c94c">Contratos</a>
+        <a href="index.html"><img src="assets/logoutIcon.png" alt="Salir" /></a>
+      `;
+      } else {
+        nav.innerHTML = `
+        <a href="cuenta.html">Cuenta</a>
+        <a href="citas.html">Citas</a>
+        <a href="buscar.html"><img src="assets/searchIcon.png" alt="Buscar" /></a>
+        <a href="publicar.html">Publicar</a>
+        <a href="contratos.html" style="color: #f2c94c;">Contratos</a>
+        <a href="index.html"><img src="assets/logoutIcon.png" alt="Salir" /></a>
+      `;
+      }
+    });
+  </script>
+  <script type="module" src="js/contratos.js"></script>
+</body>
+
+</html>
